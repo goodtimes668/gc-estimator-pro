@@ -263,7 +263,7 @@ function Badge({ color, children }) {
     yellow: "bg-amber-900/40 text-amber-300 border-amber-700/40",
     blue: "bg-blue-900/40 text-blue-300 border-blue-700/40",
     red: "bg-red-900/40 text-red-300 border-red-700/40",
-    gray: "bg-zinc-800 text-zinc-400 border-zinc-700",
+    gray: "bg-zinc-800 text-zinc-200 border-zinc-700",
     purple: "bg-purple-900/40 text-purple-300 border-purple-700/40",
   };
   return (
@@ -277,9 +277,9 @@ function SummaryCard({ label, value, sub, accent }) {
   return (
     <div className={`relative bg-zinc-900 border rounded-xl p-4 overflow-hidden ${accent ? "border-amber-500/50" : "border-zinc-700/50"}`}>
       {accent && <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500" />}
-      <p className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-1">{label}</p>
+      <p className="text-xs font-medium text-zinc-300 uppercase tracking-widest mb-1">{label}</p>
       <p className={`text-2xl font-black font-mono ${accent ? "text-amber-400" : "text-white"}`}>{value}</p>
-      {sub && <p className="text-xs text-zinc-500 mt-1">{sub}</p>}
+      {sub && <p className="text-xs text-zinc-300 mt-1">{sub}</p>}
     </div>
   );
 }
@@ -511,18 +511,18 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
             AI Plans Takeoff
             <Badge color="purple">✦ Claude Vision</Badge>
           </div>
-          <p className="text-xs text-zinc-500 mt-1">Upload plan sheets · AI reads dimensions & counts · Auto-populates estimate</p>
+          <p className="text-xs text-zinc-300 mt-1">Upload plan sheets · AI reads dimensions & counts · Auto-populates estimate</p>
         </div>
         {results && (
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <div className="text-xs text-zinc-500">{selectedCount} items selected</div>
+              <div className="text-xs text-zinc-300">{selectedCount} items selected</div>
               <div className="font-mono font-black text-amber-400 syne">{fmt(selectedTotal)}</div>
             </div>
             <button
               onClick={applySelected}
               disabled={selectedCount === 0}
-              className="bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-700 disabled:text-zinc-500 text-black font-black px-5 py-2.5 rounded-xl text-sm transition-all syne"
+              className="bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-700 disabled:text-zinc-300 text-black font-black px-5 py-2.5 rounded-xl text-sm transition-all syne"
             >
               Apply to Estimate →
             </button>
@@ -550,19 +550,19 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
             />
             <div className="text-3xl mb-2">📐</div>
             <div className="text-sm font-semibold text-zinc-300 mb-1">Drop plan sheets here</div>
-            <div className="text-xs text-zinc-600">PNG · JPG · PDF · up to 12 sheets</div>
-            <div className="text-xs text-zinc-700 mt-1">Floor plans, elevations, sections, electrical, mechanical</div>
+            <div className="text-xs text-zinc-400">PNG · JPG · PDF · up to 12 sheets</div>
+            <div className="text-xs text-zinc-500 mt-1">Floor plans, elevations, sections, electrical, mechanical</div>
           </div>
 
           {/* Project Context */}
           <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl p-4">
-            <label className="text-xs font-semibold text-zinc-500 uppercase tracking-widest block mb-2">Context for AI (optional)</label>
+            <label className="text-xs font-semibold text-zinc-300 uppercase tracking-widest block mb-2">Context for AI (optional)</label>
             <textarea
               value={projectContext}
               onChange={e => setProjectContext(e.target.value)}
               placeholder="e.g. 4-storey wood frame multi-family, 24 units, Victoria BC, ICI market, standard spec..."
               rows={3}
-              className="w-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 px-3 py-2 rounded focus:outline-none focus:border-amber-500/60 resize-none placeholder:text-zinc-700"
+              className="w-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 px-3 py-2 rounded focus:outline-none focus:border-amber-500/60 resize-none placeholder:text-zinc-500"
             />
           </div>
 
@@ -570,8 +570,8 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
           {files.length > 0 && (
             <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl overflow-hidden">
               <div className="px-4 py-2 border-b border-zinc-800 flex items-center justify-between">
-                <span className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">{files.length} Sheet{files.length !== 1 ? "s" : ""}</span>
-                <button onClick={() => { setFiles([]); setResults(null); setSelected({}); }} className="text-xs text-zinc-700 hover:text-red-400 transition-colors">Clear all</button>
+                <span className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">{files.length} Sheet{files.length !== 1 ? "s" : ""}</span>
+                <button onClick={() => { setFiles([]); setResults(null); setSelected({}); }} className="text-xs text-zinc-500 hover:text-red-400 transition-colors">Clear all</button>
               </div>
               <div className="divide-y divide-zinc-800 max-h-48 overflow-y-auto scrollbar-thin">
                 {files.map((f, i) => (
@@ -580,9 +580,9 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
                     <div className="text-lg flex-shrink-0">{f.mediaType === "application/pdf" ? "📄" : "🖼️"}</div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs text-zinc-300 truncate">{f.name}</div>
-                      <div className="text-xs text-zinc-600">{(f.size / 1024).toFixed(0)} KB</div>
+                      <div className="text-xs text-zinc-400">{(f.size / 1024).toFixed(0)} KB</div>
                     </div>
-                    <button onClick={e => { e.stopPropagation(); removeFile(i); }} className="text-zinc-700 hover:text-red-400 text-xs transition-colors">✕</button>
+                    <button onClick={e => { e.stopPropagation(); removeFile(i); }} className="text-zinc-500 hover:text-red-400 text-xs transition-colors">✕</button>
                   </div>
                 ))}
               </div>
@@ -592,7 +592,7 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
           {/* Plan Preview */}
           {files[activeIdx]?.preview && (
             <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl overflow-hidden">
-              <div className="px-3 py-2 border-b border-zinc-800 text-xs text-zinc-500 truncate">{files[activeIdx].name}</div>
+              <div className="px-3 py-2 border-b border-zinc-800 text-xs text-zinc-300 truncate">{files[activeIdx].name}</div>
               <img src={files[activeIdx].preview} alt="plan" className="w-full object-contain max-h-72 bg-zinc-950" />
             </div>
           )}
@@ -600,8 +600,8 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
           {files[activeIdx]?.mediaType === "application/pdf" && (
             <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl p-6 text-center">
               <div className="text-3xl mb-2">📄</div>
-              <div className="text-xs text-zinc-500">{files[activeIdx].name}</div>
-              <div className="text-xs text-zinc-700 mt-1">PDF ready for AI analysis</div>
+              <div className="text-xs text-zinc-300">{files[activeIdx].name}</div>
+              <div className="text-xs text-zinc-500 mt-1">PDF ready for AI analysis</div>
             </div>
           )}
 
@@ -610,7 +610,7 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
             <button
               onClick={runAnalysis}
               disabled={analyzing}
-              className="w-full relative overflow-hidden bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 disabled:from-zinc-700 disabled:to-zinc-700 text-black disabled:text-zinc-500 font-black py-3.5 rounded-xl text-sm syne transition-all"
+              className="w-full relative overflow-hidden bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 disabled:from-zinc-700 disabled:to-zinc-700 text-black disabled:text-zinc-300 font-black py-3.5 rounded-xl text-sm syne transition-all"
             >
               {analyzing ? (
                 <span className="flex items-center justify-center gap-2">
@@ -631,13 +631,13 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
         {/* Right: Results */}
         <div className="col-span-8">
           {!results && !analyzing && (
-            <div className="h-full flex flex-col items-center justify-center text-center py-20 text-zinc-700">
+            <div className="h-full flex flex-col items-center justify-center text-center py-20 text-zinc-500">
               <div className="text-6xl mb-4 opacity-50">🏛️</div>
-              <div className="text-lg font-semibold text-zinc-600 syne">Upload your plans to start</div>
-              <div className="text-sm text-zinc-700 mt-2 max-w-sm">
+              <div className="text-lg font-semibold text-zinc-400 syne">Upload your plans to start</div>
+              <div className="text-sm text-zinc-500 mt-2 max-w-sm">
                 Claude Vision will read your drawings, identify quantities, count fixtures, measure areas, and map everything to your estimate divisions.
               </div>
-              <div className="mt-6 grid grid-cols-3 gap-3 text-xs text-zinc-700 max-w-lg">
+              <div className="mt-6 grid grid-cols-3 gap-3 text-xs text-zinc-500 max-w-lg">
                 {["Floor plans → room areas, wall lengths","Elevations → cladding, window areas","Sections → floor assemblies, heights","Electrical → panel, circuits, fixtures","Plumbing → fixture counts","Site plan → civil quantities"].map(tip => (
                   <div key={tip} className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-3 text-left">{tip}</div>
                 ))}
@@ -653,8 +653,8 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
                 <div className="absolute inset-2 border-4 border-transparent border-t-orange-400 rounded-full animate-spin" style={{ animationDirection: "reverse", animationDuration: "0.8s" }} />
               </div>
               <div className="syne font-black text-xl text-white mb-2">Reading Your Plans</div>
-              <div className="text-sm text-zinc-500">{progress}</div>
-              <div className="mt-4 text-xs text-zinc-700 max-w-xs">
+              <div className="text-sm text-zinc-300">{progress}</div>
+              <div className="mt-4 text-xs text-zinc-500 max-w-xs">
                 Claude is examining every sheet, reading dimensions, counting components, and mapping quantities to your estimating divisions.
               </div>
             </div>
@@ -665,7 +665,7 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
               {/* Project Summary */}
               <div className="bg-zinc-900 border border-purple-700/40 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">AI Project Summary</div>
+                  <div className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">AI Project Summary</div>
                   <Badge color="purple">✦ AI Generated</Badge>
                 </div>
                 <div className="grid grid-cols-4 gap-4 mb-3">
@@ -676,16 +676,16 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
                     ["Units", results.projectSummary?.units || "—"],
                   ].map(([k, v]) => (
                     <div key={k} className="bg-zinc-800/50 rounded-lg p-3">
-                      <div className="text-xs text-zinc-600 mb-0.5">{k}</div>
+                      <div className="text-xs text-zinc-400 mb-0.5">{k}</div>
                       <div className="font-mono font-bold text-white text-sm">{v}</div>
                     </div>
                   ))}
                 </div>
                 {results.projectSummary?.notes && (
-                  <p className="text-xs text-zinc-400 bg-zinc-800/50 rounded-lg p-3">{results.projectSummary.notes}</p>
+                  <p className="text-xs text-zinc-200 bg-zinc-800/50 rounded-lg p-3">{results.projectSummary.notes}</p>
                 )}
                 {results.aiNotes && (
-                  <p className="text-xs text-zinc-500 mt-2 italic">{results.aiNotes}</p>
+                  <p className="text-xs text-zinc-300 mt-2 italic">{results.aiNotes}</p>
                 )}
                 {results.flaggedItems?.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-1">
@@ -699,14 +699,14 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
               <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl overflow-hidden">
                 <div className="px-5 py-3 border-b border-zinc-800 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">
+                    <span className="text-xs font-semibold text-zinc-300 uppercase tracking-widest">
                       {results.takeoffItems.length} Items Identified
                     </span>
                     <Badge color="green">{selectedCount} selected</Badge>
                   </div>
                   <div className="flex gap-3 text-xs">
                     <button onClick={() => toggleAll(true)} className="text-amber-500 hover:text-amber-400 transition-colors font-semibold">Select all</button>
-                    <button onClick={() => toggleAll(false)} className="text-zinc-600 hover:text-zinc-400 transition-colors">Deselect all</button>
+                    <button onClick={() => toggleAll(false)} className="text-zinc-400 hover:text-zinc-200 transition-colors">Deselect all</button>
                   </div>
                 </div>
 
@@ -719,7 +719,7 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
                     return (
                       <div key={divId}>
                         <div className="px-5 py-2 bg-zinc-800/60 flex items-center justify-between sticky top-0">
-                          <span className="text-xs font-bold text-zinc-400">{div.icon} {div.label}</span>
+                          <span className="text-xs font-bold text-zinc-200">{div.icon} {div.label}</span>
                           {divSubtotal > 0 && <span className="text-xs font-mono text-amber-400">{fmt(divSubtotal)}</span>}
                         </div>
                         {items.map(item => {
@@ -738,18 +738,18 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
                               {/* Content */}
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                                  <span className={`text-xs font-semibold ${isSelected ? "text-white" : "text-zinc-400"}`}>{item.systemLabel}</span>
+                                  <span className={`text-xs font-semibold ${isSelected ? "text-white" : "text-zinc-200"}`}>{item.systemLabel}</span>
                                   <span className={`text-xs font-mono px-1.5 py-0.5 rounded border ${confidenceColor(item.confidence)}`}>
                                     {item.confidence}% conf
                                   </span>
-                                  {item.sourceSheet && <span className="text-xs text-zinc-700">{item.sourceSheet}</span>}
+                                  {item.sourceSheet && <span className="text-xs text-zinc-500">{item.sourceSheet}</span>}
                                 </div>
-                                <div className="text-xs text-zinc-600 italic">{item.reasoning}</div>
+                                <div className="text-xs text-zinc-400 italic">{item.reasoning}</div>
                               </div>
                               {/* Numbers */}
                               <div className="text-right flex-shrink-0 ml-2">
-                                <div className="text-xs font-mono text-zinc-400">{fmtNum(item.qty)} {item.unit}</div>
-                                <div className={`text-sm font-mono font-bold ${isSelected ? "text-amber-400" : "text-zinc-600"}`}>
+                                <div className="text-xs font-mono text-zinc-200">{fmtNum(item.qty)} {item.unit}</div>
+                                <div className={`text-sm font-mono font-bold ${isSelected ? "text-amber-400" : "text-zinc-400"}`}>
                                   {fmt(lineTotal)}
                                 </div>
                               </div>
@@ -763,18 +763,18 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
 
                 {/* Footer */}
                 <div className="px-5 py-4 border-t border-zinc-700 bg-zinc-800/60 flex items-center justify-between">
-                  <div className="text-xs text-zinc-500">
+                  <div className="text-xs text-zinc-300">
                     {selectedCount} of {results.takeoffItems.length} items · estimated from plans
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <div className="text-xs text-zinc-600">Selected construction value</div>
+                      <div className="text-xs text-zinc-400">Selected construction value</div>
                       <div className="font-mono font-black text-amber-400 syne text-lg">{fmt(selectedTotal)}</div>
                     </div>
                     <button
                       onClick={applySelected}
                       disabled={selectedCount === 0}
-                      className="bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-700 disabled:text-zinc-500 text-black font-black px-6 py-2.5 rounded-xl text-sm syne transition-all"
+                      className="bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-700 disabled:text-zinc-300 text-black font-black px-6 py-2.5 rounded-xl text-sm syne transition-all"
                     >
                       Apply {selectedCount} Items →
                     </button>
@@ -810,7 +810,7 @@ function DivisionRow({ division, entries, onUpdate, totalConstruction, highlight
       >
         <div className="flex items-center gap-3">
           <span className="text-xl">{division.icon}</span>
-          <span className="font-mono text-xs text-zinc-500">{division.code}</span>
+          <span className="font-mono text-xs text-zinc-300">{division.code}</span>
           <span className="font-semibold text-sm text-white">{division.label}</span>
           {divTotal > 0 && <Badge color="green">{entries.filter(e => e.amount > 0).length} items</Badge>}
           {hasHighlights && <Badge color="purple">✦ AI populated</Badge>}
@@ -818,17 +818,17 @@ function DivisionRow({ division, entries, onUpdate, totalConstruction, highlight
         <div className="flex items-center gap-4">
           {divTotal > 0 && (
             <>
-              <span className="text-xs text-zinc-500 font-mono">{pct}%</span>
+              <span className="text-xs text-zinc-300 font-mono">{pct}%</span>
               <span className="font-mono font-bold text-amber-400">{fmt(divTotal)}</span>
             </>
           )}
-          <span className={`text-zinc-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
+          <span className={`text-zinc-200 transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
         </div>
       </button>
 
       {open && (
         <div className="bg-zinc-900/50 divide-y divide-zinc-800">
-          <div className="grid grid-cols-12 gap-2 px-4 py-2 text-xs font-semibold text-zinc-600 uppercase tracking-widest border-b border-zinc-800">
+          <div className="grid grid-cols-12 gap-2 px-4 py-2 text-xs font-semibold text-zinc-400 uppercase tracking-widest border-b border-zinc-800">
             <div className="col-span-4">Description</div>
             <div className="col-span-2 text-right">Unit</div>
             <div className="col-span-2 text-right">Rate</div>
@@ -848,7 +848,7 @@ function DivisionRow({ division, entries, onUpdate, totalConstruction, highlight
                   {isAI && <span className="text-purple-400 text-xs">✦</span>}
                 </div>
                 <div className="col-span-2 text-right">
-                  <span className="text-xs text-zinc-600 font-mono">{item.unit}</span>
+                  <span className="text-xs text-zinc-400 font-mono">{item.unit}</span>
                 </div>
                 <div className="col-span-2">
                   <input type="number" value={entry.rate || item.rate}
@@ -858,10 +858,10 @@ function DivisionRow({ division, entries, onUpdate, totalConstruction, highlight
                 <div className="col-span-2">
                   <input type="number" value={entry.qty || ""} placeholder="0"
                     onChange={e => onUpdate(division.id, item.id, { qty: parseFloat(e.target.value) || 0 })}
-                    className={`w-full bg-zinc-800 border text-right text-xs font-mono px-2 py-1 rounded focus:outline-none transition-colors ${isAI ? "border-purple-500/40 text-purple-300 focus:border-purple-500" : isActive ? "border-amber-500/40 text-amber-300 focus:border-amber-500" : "border-zinc-700 text-zinc-400 focus:border-amber-500/60"}`} />
+                    className={`w-full bg-zinc-800 border text-right text-xs font-mono px-2 py-1 rounded focus:outline-none transition-colors ${isAI ? "border-purple-500/40 text-purple-300 focus:border-purple-500" : isActive ? "border-amber-500/40 text-amber-300 focus:border-amber-500" : "border-zinc-700 text-zinc-200 focus:border-amber-500/60"}`} />
                 </div>
                 <div className="col-span-2 text-right">
-                  <span className={`font-mono text-xs font-bold ${isActive ? "text-amber-400" : "text-zinc-700"}`}>
+                  <span className={`font-mono text-xs font-bold ${isActive ? "text-amber-400" : "text-zinc-500"}`}>
                     {isActive ? fmt(entry.amount) : "—"}
                   </span>
                 </div>
@@ -876,7 +876,7 @@ function DivisionRow({ division, entries, onUpdate, totalConstruction, highlight
 
           {divTotal > 0 && (
             <div className="px-4 py-2 flex justify-end border-t border-zinc-700/50 bg-zinc-800/40">
-              <span className="text-xs text-zinc-500 mr-4 self-center">Division Subtotal</span>
+              <span className="text-xs text-zinc-300 mr-4 self-center">Division Subtotal</span>
               <span className="font-mono font-black text-amber-400">{fmt(divTotal)}</span>
             </div>
           )}
@@ -896,7 +896,7 @@ function CustomLineItem({ onAdd }) {
     onAdd({ id: `custom_${Date.now()}`, label: desc, unit, rate: r, qty: q, amount: r * q, custom: true });
     setDesc(""); setUnit(""); setRate(""); setQty(""); setShow(false);
   }
-  if (!show) return <button onClick={() => setShow(true)} className="text-xs text-zinc-600 hover:text-amber-500 transition-colors font-medium">+ Add custom line item</button>;
+  if (!show) return <button onClick={() => setShow(true)} className="text-xs text-zinc-400 hover:text-amber-500 transition-colors font-medium">+ Add custom line item</button>;
   return (
     <div className="grid grid-cols-12 gap-2 items-center">
       <input value={desc} onChange={e => setDesc(e.target.value)} placeholder="Description" className="col-span-4 bg-zinc-800 border border-amber-500/40 text-xs text-zinc-300 px-2 py-1 rounded focus:outline-none focus:border-amber-500" />
@@ -919,34 +919,34 @@ function ProposalView({ project, markups, divTotals, subtotal, overhead, profit,
       <div className="flex justify-between items-start mb-10 pb-8 border-b-2 border-zinc-200">
         <div>
           <div className="text-3xl font-black tracking-tight text-zinc-900 mb-1">GT MANN CONTRACTING</div>
-          <div className="text-sm text-zinc-500">Victoria, BC · General Contractor</div>
+          <div className="text-sm text-zinc-300">Victoria, BC · General Contractor</div>
         </div>
         <div className="text-right">
           <div className="text-2xl font-bold text-amber-600">ESTIMATE</div>
-          <div className="text-sm text-zinc-500 mt-1">{date}</div>
-          <div className="text-xs font-mono text-zinc-400 mt-1">EST-{Date.now().toString().slice(-6)}</div>
+          <div className="text-sm text-zinc-300 mt-1">{date}</div>
+          <div className="text-xs font-mono text-zinc-200 mt-1">EST-{Date.now().toString().slice(-6)}</div>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-8 mb-10">
         <div>
-          <div className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Project</div>
+          <div className="text-xs font-bold uppercase tracking-widest text-zinc-200 mb-2">Project</div>
           <div className="font-bold text-lg">{project.name || "Unnamed Project"}</div>
-          <div className="text-sm text-zinc-600">{project.address}</div>
-          <div className="text-sm text-zinc-600">{project.type}</div>
+          <div className="text-sm text-zinc-400">{project.address}</div>
+          <div className="text-sm text-zinc-400">{project.type}</div>
         </div>
         <div>
-          <div className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Client</div>
+          <div className="text-xs font-bold uppercase tracking-widest text-zinc-200 mb-2">Client</div>
           <div className="font-bold text-lg">{project.clientName || "—"}</div>
-          <div className="text-sm text-zinc-600">{project.clientEmail}</div>
-          <div className="text-sm text-zinc-600">{project.clientPhone}</div>
+          <div className="text-sm text-zinc-400">{project.clientEmail}</div>
+          <div className="text-sm text-zinc-400">{project.clientPhone}</div>
         </div>
       </div>
       <table className="w-full text-sm mb-8">
         <thead>
           <tr className="border-b-2 border-zinc-200">
-            <th className="text-left py-2 font-bold uppercase tracking-widest text-xs text-zinc-500">Division</th>
-            <th className="text-right py-2 font-bold uppercase tracking-widest text-xs text-zinc-500">Amount</th>
-            <th className="text-right py-2 font-bold uppercase tracking-widest text-xs text-zinc-500">%</th>
+            <th className="text-left py-2 font-bold uppercase tracking-widest text-xs text-zinc-300">Division</th>
+            <th className="text-right py-2 font-bold uppercase tracking-widest text-xs text-zinc-300">Amount</th>
+            <th className="text-right py-2 font-bold uppercase tracking-widest text-xs text-zinc-300">%</th>
           </tr>
         </thead>
         <tbody>
@@ -957,7 +957,7 @@ function ProposalView({ project, markups, divTotals, subtotal, overhead, profit,
               <tr key={div.id} className="border-b border-zinc-100">
                 <td className="py-2">{div.icon} {div.label}</td>
                 <td className="py-2 text-right font-mono font-semibold">{fmt(total)}</td>
-                <td className="py-2 text-right text-zinc-500">{subtotal > 0 ? ((total / subtotal) * 100).toFixed(1) : 0}%</td>
+                <td className="py-2 text-right text-zinc-300">{subtotal > 0 ? ((total / subtotal) * 100).toFixed(1) : 0}%</td>
               </tr>
             );
           })}
@@ -966,9 +966,9 @@ function ProposalView({ project, markups, divTotals, subtotal, overhead, profit,
       <div className="bg-zinc-50 rounded-xl p-6">
         <div className="space-y-2">
           {[["Construction Subtotal", subtotal], [`Overhead & Burden (${markups.overhead}%)`, overhead], [`Profit (${markups.profit}%)`, profit], [`Contingency (${markups.contingency}%)`, contingency]].map(([l, v]) => (
-            <div key={l} className="flex justify-between text-sm"><span className="text-zinc-600">{l}</span><span className="font-mono font-semibold">{fmt(v)}</span></div>
+            <div key={l} className="flex justify-between text-sm"><span className="text-zinc-400">{l}</span><span className="font-mono font-semibold">{fmt(v)}</span></div>
           ))}
-          {markups.taxRate > 0 && <div className="flex justify-between text-sm"><span className="text-zinc-600">Tax ({markups.taxRate}%)</span><span className="font-mono font-semibold">{fmt(tax)}</span></div>}
+          {markups.taxRate > 0 && <div className="flex justify-between text-sm"><span className="text-zinc-400">Tax ({markups.taxRate}%)</span><span className="font-mono font-semibold">{fmt(tax)}</span></div>}
           <div className="flex justify-between text-lg font-black pt-3 border-t-2 border-zinc-300 mt-2">
             <span>TOTAL CONTRACT VALUE</span><span className="text-amber-600">{fmt(grand)}</span>
           </div>
@@ -976,11 +976,11 @@ function ProposalView({ project, markups, divTotals, subtotal, overhead, profit,
       </div>
       {project.notes && (
         <div className="mt-8 pt-6 border-t border-zinc-200">
-          <div className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Notes & Exclusions</div>
-          <p className="text-sm text-zinc-600 whitespace-pre-wrap">{project.notes}</p>
+          <div className="text-xs font-bold uppercase tracking-widest text-zinc-200 mb-2">Notes & Exclusions</div>
+          <p className="text-sm text-zinc-400 whitespace-pre-wrap">{project.notes}</p>
         </div>
       )}
-      <div className="mt-10 pt-6 border-t border-zinc-200 text-xs text-zinc-400">
+      <div className="mt-10 pt-6 border-t border-zinc-200 text-xs text-zinc-200">
         This estimate is valid for 30 days from the date of issue. All prices in Canadian dollars. Subject to site conditions, final drawings, and owner-confirmed scope.
       </div>
     </div>
@@ -1095,13 +1095,13 @@ export default function GCEstimator() {
             <div className="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center text-black font-black text-sm syne">E</div>
             <div>
               <div className="syne font-black text-white text-sm tracking-tight">ESTIMATOR PRO</div>
-              <div className="text-xs text-zinc-600">General Contractor Edition · AI-Powered</div>
+              <div className="text-xs text-zinc-400">General Contractor Edition · AI-Powered</div>
             </div>
           </div>
           <div className="flex items-center gap-1">
             {TABS.map(t => (
               <button key={t.id} onClick={() => setView(t.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${view === t.id ? "bg-amber-500 text-black" : "text-zinc-400 hover:text-white hover:bg-zinc-800"}`}>
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${view === t.id ? "bg-amber-500 text-black" : "text-zinc-200 hover:text-white hover:bg-zinc-800"}`}>
                 <span>{t.icon}</span>{t.label}
                 {t.id === "estimate" && activeItemCount > 0 && (
                   <span className="bg-black/20 text-xs px-1.5 rounded-full">{activeItemCount}</span>
@@ -1112,7 +1112,7 @@ export default function GCEstimator() {
           <div className="flex items-center gap-3">
             {grand > 0 && <div className="syne font-black text-amber-400 text-lg">{fmt(grand)}</div>}
             <button onClick={() => { if (confirm("Clear all quantities?")) { setLineEntries({}); setAiPopulatedIds([]); } }}
-              className="text-xs text-zinc-600 hover:text-red-400 transition-colors">Clear</button>
+              className="text-xs text-zinc-400 hover:text-red-400 transition-colors">Clear</button>
           </div>
         </div>
       </div>
@@ -1133,51 +1133,51 @@ export default function GCEstimator() {
                     <Badge color="purple">✦ AI</Badge>
                     <span className="text-xs font-semibold text-purple-300">Plans Populated</span>
                   </div>
-                  <p className="text-xs text-zinc-500">{aiPopulatedIds.length} items auto-filled from your plans. Purple ✦ marks AI-sourced quantities.</p>
+                  <p className="text-xs text-zinc-300">{aiPopulatedIds.length} items auto-filled from your plans. Purple ✦ marks AI-sourced quantities.</p>
                 </div>
               )}
               <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl p-4">
-                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-3">Project Info</div>
+                <div className="text-xs font-semibold text-zinc-300 uppercase tracking-widest mb-3">Project Info</div>
                 <div className="space-y-2">
                   {[{ key:"name",label:"Project Name",placeholder:"Grand & Fir" },{ key:"address",label:"Address",placeholder:"Victoria, BC" },{ key:"clientName",label:"Client Name",placeholder:"Owner" },{ key:"clientEmail",label:"Email",placeholder:"email@domain.com" },{ key:"clientPhone",label:"Phone",placeholder:"250-000-0000" },{ key:"sqft",label:"Total Area (sqft)",placeholder:"0",type:"number" }].map(f => (
                     <div key={f.key}>
-                      <label className="text-xs text-zinc-600 block mb-0.5">{f.label}</label>
+                      <label className="text-xs text-zinc-400 block mb-0.5">{f.label}</label>
                       <input type={f.type||"text"} value={project[f.key]} onChange={e => setProject(p => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder}
-                        className="w-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 px-2 py-1.5 rounded focus:outline-none focus:border-amber-500/60 placeholder:text-zinc-700" />
+                        className="w-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 px-2 py-1.5 rounded focus:outline-none focus:border-amber-500/60 placeholder:text-zinc-500" />
                     </div>
                   ))}
                   <div>
-                    <label className="text-xs text-zinc-600 block mb-0.5">Project Type</label>
+                    <label className="text-xs text-zinc-400 block mb-0.5">Project Type</label>
                     <select value={project.type} onChange={e => setProject(p => ({ ...p, type: e.target.value }))}
                       className="w-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 px-2 py-1.5 rounded focus:outline-none focus:border-amber-500/60">
                       {PROJECT_TYPES.map(t => <option key={t}>{t}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs text-zinc-600 block mb-0.5">Duration (months)</label>
+                    <label className="text-xs text-zinc-400 block mb-0.5">Duration (months)</label>
                     <input type="number" value={project.duration} onChange={e => setProject(p => ({ ...p, duration: parseInt(e.target.value)||1 }))}
                       className="w-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 px-2 py-1.5 rounded focus:outline-none focus:border-amber-500/60" />
                   </div>
                   <div>
-                    <label className="text-xs text-zinc-600 block mb-0.5">Notes / Exclusions</label>
+                    <label className="text-xs text-zinc-400 block mb-0.5">Notes / Exclusions</label>
                     <textarea value={project.notes} onChange={e => setProject(p => ({ ...p, notes: e.target.value }))} rows={3} placeholder="Scope clarifications..."
-                      className="w-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 px-2 py-1.5 rounded focus:outline-none focus:border-amber-500/60 resize-none placeholder:text-zinc-700" />
+                      className="w-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 px-2 py-1.5 rounded focus:outline-none focus:border-amber-500/60 resize-none placeholder:text-zinc-500" />
                   </div>
                 </div>
               </div>
 
               <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl p-4">
-                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-3">Markup & Fees</div>
+                <div className="text-xs font-semibold text-zinc-300 uppercase tracking-widest mb-3">Markup & Fees</div>
                 <div className="flex flex-wrap gap-1 mb-3">
                   {Object.keys(MARKUP_PRESETS).map(k => (
                     <button key={k} onClick={() => applyPreset(k)}
-                      className={`text-xs px-2 py-1 rounded font-medium transition-all ${markupPreset === k ? "bg-amber-500 text-black" : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"}`}>{k}</button>
+                      className={`text-xs px-2 py-1 rounded font-medium transition-all ${markupPreset === k ? "bg-amber-500 text-black" : "bg-zinc-800 text-zinc-200 hover:bg-zinc-700"}`}>{k}</button>
                   ))}
                 </div>
                 <div className="space-y-2">
                   {[{ key:"overhead",label:"Overhead (%)" },{ key:"profit",label:"Profit (%)" },{ key:"contingency",label:"Contingency (%)" },{ key:"taxRate",label:"Tax Rate (%)" }].map(f => (
                     <div key={f.key} className="flex items-center justify-between gap-2">
-                      <label className="text-xs text-zinc-500 flex-1">{f.label}</label>
+                      <label className="text-xs text-zinc-300 flex-1">{f.label}</label>
                       <input type="number" value={markups[f.key]} onChange={e => { setMarkupPreset("Custom"); setMarkups(m => ({ ...m, [f.key]: parseFloat(e.target.value)||0 })); }}
                         className="w-16 bg-zinc-800 border border-zinc-700 text-xs text-amber-300 font-mono px-2 py-1 rounded text-right focus:outline-none focus:border-amber-500/60" />
                     </div>
@@ -1186,20 +1186,20 @@ export default function GCEstimator() {
               </div>
 
               <div className="bg-zinc-900 border border-amber-500/30 rounded-xl p-4">
-                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-3">Summary</div>
+                <div className="text-xs font-semibold text-zinc-300 uppercase tracking-widest mb-3">Summary</div>
                 <div className="space-y-1.5">
                   {[["Construction Sub",fmt(subtotal)],[`Overhead (${markups.overhead}%)`,fmt(overhead)],[`Profit (${markups.profit}%)`,fmt(profit)],[`Contingency (${markups.contingency}%)`,fmt(contingency)],...(markups.taxRate>0?[[`Tax (${markups.taxRate}%)`,fmt(tax)]]:[])]
                     .map(([k,v]) => (
                     <div key={k} className="flex justify-between text-xs">
-                      <span className="text-zinc-500">{k}</span><span className="font-mono text-zinc-300">{v}</span>
+                      <span className="text-zinc-300">{k}</span><span className="font-mono text-zinc-300">{v}</span>
                     </div>
                   ))}
                   <div className="flex justify-between text-sm font-black pt-2 border-t border-zinc-700 mt-1">
                     <span className="text-white">TOTAL</span>
                     <span className="text-amber-400 font-mono syne">{fmt(grand)}</span>
                   </div>
-                  {sqftCost > 0 && <div className="flex justify-between text-xs pt-1"><span className="text-zinc-600">Cost / sqft</span><span className="font-mono text-zinc-400">{fmt(sqftCost)}</span></div>}
-                  {activeItemCount > 0 && <div className="flex justify-between text-xs"><span className="text-zinc-600">Line items</span><span className="font-mono text-zinc-400">{activeItemCount}</span></div>}
+                  {sqftCost > 0 && <div className="flex justify-between text-xs pt-1"><span className="text-zinc-400">Cost / sqft</span><span className="font-mono text-zinc-200">{fmt(sqftCost)}</span></div>}
+                  {activeItemCount > 0 && <div className="flex justify-between text-xs"><span className="text-zinc-400">Line items</span><span className="font-mono text-zinc-200">{activeItemCount}</span></div>}
                 </div>
               </div>
             </div>
@@ -1209,7 +1209,7 @@ export default function GCEstimator() {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <div className="syne font-black text-xl text-white">Cost Breakdown</div>
-                <div className="text-xs text-zinc-600">{DIVISIONS.length} divisions · {DIVISIONS.reduce((s,d)=>s+d.items.length,0)}+ line items
+                <div className="text-xs text-zinc-400">{DIVISIONS.length} divisions · {DIVISIONS.reduce((s,d)=>s+d.items.length,0)}+ line items
                   {aiPopulatedIds.length > 0 && <span className="text-purple-400 ml-2">· {aiPopulatedIds.length} AI-populated ✦</span>}
                 </div>
               </div>
@@ -1235,7 +1235,7 @@ export default function GCEstimator() {
         <div className="max-w-5xl mx-auto px-4 py-8">
           <div className="syne font-black text-2xl mb-6 text-white">Cost Breakdown Analysis</div>
           {breakdownItems.length === 0 ? (
-            <div className="text-center py-20 text-zinc-600">
+            <div className="text-center py-20 text-zinc-400">
               <div className="text-5xl mb-4">📊</div>
               <div className="text-lg">No costs yet — upload plans or enter quantities.</div>
             </div>
@@ -1248,11 +1248,11 @@ export default function GCEstimator() {
                 <SummaryCard label="Active Line Items" value={activeItemCount} sub={`across ${breakdownItems.length} divisions`} />
               </div>
               <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl p-6 mb-6">
-                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">Division Breakdown</div>
+                <div className="text-xs font-semibold text-zinc-300 uppercase tracking-widest mb-4">Division Breakdown</div>
                 <div className="space-y-2">
                   {breakdownItems.map(item => (
                     <div key={item.label} className="flex items-center gap-3">
-                      <div className="w-40 text-xs text-zinc-400 text-right truncate flex-shrink-0">{item.icon} {item.label}</div>
+                      <div className="w-40 text-xs text-zinc-200 text-right truncate flex-shrink-0">{item.icon} {item.label}</div>
                       <div className="flex-1 relative h-6 bg-zinc-800 rounded overflow-hidden">
                         <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded transition-all duration-500"
                           style={{ width: `${(item.value / subtotal) * 100}%` }} />
@@ -1266,12 +1266,12 @@ export default function GCEstimator() {
                 </div>
               </div>
               <div className="bg-zinc-900 border border-zinc-700/50 rounded-xl p-6">
-                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">Contract Value Stack</div>
+                <div className="text-xs font-semibold text-zinc-300 uppercase tracking-widest mb-4">Contract Value Stack</div>
                 <div className="space-y-2">
                   {[{ label:"Construction Subtotal",value:subtotal,color:"from-blue-500 to-cyan-500" },{ label:`Overhead (${markups.overhead}%)`,value:overhead,color:"from-violet-500 to-purple-500" },{ label:`Profit (${markups.profit}%)`,value:profit,color:"from-emerald-500 to-teal-500" },{ label:`Contingency (${markups.contingency}%)`,value:contingency,color:"from-amber-500 to-orange-500" },...(tax>0?[{ label:`Tax`,value:tax,color:"from-red-500 to-rose-500" }]:[])]
                     .map(row => (
                     <div key={row.label} className="flex items-center gap-3">
-                      <div className="w-44 text-xs text-zinc-400 text-right flex-shrink-0">{row.label}</div>
+                      <div className="w-44 text-xs text-zinc-200 text-right flex-shrink-0">{row.label}</div>
                       <div className="flex-1 relative h-6 bg-zinc-800 rounded overflow-hidden">
                         <div className={`absolute inset-y-0 left-0 bg-gradient-to-r ${row.color} rounded`}
                           style={{ width: `${Math.min((row.value / grand) * 100, 100)}%` }} />
@@ -1281,7 +1281,7 @@ export default function GCEstimator() {
                   ))}
                   <div className="flex justify-end pt-2 border-t border-zinc-700">
                     <div className="text-right">
-                      <div className="text-xs text-zinc-500">TOTAL CONTRACT</div>
+                      <div className="text-xs text-zinc-300">TOTAL CONTRACT</div>
                       <div className="font-mono font-black text-amber-400 syne text-xl">{fmt(grand)}</div>
                     </div>
                   </div>
