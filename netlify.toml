@@ -2,6 +2,13 @@
   publish = "dist"
   functions = "netlify/functions"
 
+[functions]
+  node_bundler = "esbuild"
+
+[functions."anthropic-proxy"]
+  # Extend timeout — vision analysis needs more than the 10s default
+  timeout = 60
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

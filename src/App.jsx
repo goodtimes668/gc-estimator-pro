@@ -250,6 +250,35 @@ function fileToBase64(file) {
   });
 }
 
+// Downscale large plan images before sending — keeps detail readable for the
+// AI while cutting payload size and analysis time dramatically.
+function downscaleImage(file, maxDim = 1600) {
+  return new Promise((resolve) => {
+    if (!file.type.startsWith("image/")) { resolve(null); return; }
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      let { width, height } = img;
+      if (width <= maxDim && height <= maxDim) {
+        URL.revokeObjectURL(url);
+        resolve(null); // small enough, use original
+        return;
+      }
+      const scale = maxDim / Math.max(width, height);
+      width = Math.round(width * scale);
+      height = Math.round(height * scale);
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      URL.revokeObjectURL(url);
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+      resolve({ base64: dataUrl.split(",")[1], mediaType: "image/jpeg" });
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(null); };
+    img.src = url;
+  });
+}
+
 function confidenceColor(c) {
   if (c >= 80) return "text-emerald-400 border-emerald-700/50 bg-emerald-900/20";
   if (c >= 50) return "text-amber-400 border-amber-700/50 bg-amber-900/20";
@@ -303,9 +332,11 @@ function PlansTakeoff({ onApplyToEstimate }) {
     for (const f of rawFiles) {
       if (!ACCEPTED.includes(f.type)) continue;
       try {
-        const b64 = await fileToBase64(f);
-        const preview = f.type.startsWith("image/") ? `data:${f.type};base64,${b64}` : null;
-        processed.push({ name: f.name, base64: b64, mediaType: f.type, preview, size: f.size });
+        const scaled = await downscaleImage(f);
+        const b64 = scaled ? scaled.base64 : await fileToBase64(f);
+        const mediaType = scaled ? scaled.mediaType : f.type;
+        const preview = mediaType.startsWith("image/") ? `data:${mediaType};base64,${b64}` : null;
+        processed.push({ name: f.name, base64: b64, mediaType, preview, size: f.size });
       } catch {}
     }
     setFiles(prev => {
@@ -422,7 +453,7 @@ Return ONLY valid JSON (no markdown, no preamble) in this exact structure:
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
+          model: "claude-sonnet-4-6",
           max_tokens: 4000,
           messages: [{ role: "user", content: contentBlocks }]
         })

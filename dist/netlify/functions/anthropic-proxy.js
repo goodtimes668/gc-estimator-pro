@@ -18,6 +18,9 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: JSON.stringify({ error: { message: "Invalid JSON body" } }) };
   }
 
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 9000);
+
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -27,8 +30,10 @@ exports.handler = async function (event) {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify(body),
+      signal: controller.signal,
     });
 
+    clearTimeout(timer);
     const data = await response.json();
 
     return {
@@ -37,6 +42,18 @@ exports.handler = async function (event) {
       body: JSON.stringify(data),
     };
   } catch (err) {
+    clearTimeout(timer);
+    if (err.name === "AbortError") {
+      return {
+        statusCode: 504,
+        body: JSON.stringify({
+          error: {
+            message:
+              "Analysis took too long for the server limit (10s on Netlify free tier). Try fewer or smaller sheets, or upgrade the Netlify plan for longer timeouts.",
+          },
+        }),
+      };
+    }
     return {
       statusCode: 502,
       body: JSON.stringify({ error: { message: err.message || "Upstream request failed" } }),
