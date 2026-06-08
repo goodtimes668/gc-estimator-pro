@@ -19,7 +19,7 @@ exports.handler = async function (event) {
   }
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 9000);
+  const timer = setTimeout(() => controller.abort(), 24000);
 
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -49,7 +49,7 @@ exports.handler = async function (event) {
         body: JSON.stringify({
           error: {
             message:
-              "Analysis took too long for the server limit (10s on Netlify free tier). Try fewer or smaller sheets, or upgrade the Netlify plan for longer timeouts.",
+              "Analysis took too long for the server limit. Try fewer or smaller sheets, or upgrade the Netlify plan for longer timeouts.",
           },
         }),
       };
