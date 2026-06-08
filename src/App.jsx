@@ -252,7 +252,7 @@ function fileToBase64(file) {
 
 // Downscale large plan images before sending — keeps detail readable for the
 // AI while cutting payload size and analysis time dramatically.
-function downscaleImage(file, maxDim = 1600) {
+function downscaleImage(file, maxDim = 1100) {
   return new Promise((resolve) => {
     if (!file.type.startsWith("image/")) { resolve(null); return; }
     const img = new Image();
@@ -271,7 +271,7 @@ function downscaleImage(file, maxDim = 1600) {
       canvas.width = width; canvas.height = height;
       canvas.getContext("2d").drawImage(img, 0, 0, width, height);
       URL.revokeObjectURL(url);
-      const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.72);
       resolve({ base64: dataUrl.split(",")[1], mediaType: "image/jpeg" });
     };
     img.onerror = () => { URL.revokeObjectURL(url); resolve(null); };

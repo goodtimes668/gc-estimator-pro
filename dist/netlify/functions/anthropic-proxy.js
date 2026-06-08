@@ -11,6 +11,20 @@ exports.handler = async function (event) {
     };
   }
 
+  // Surface payload size — Netlify caps function request bodies at 6MB.
+  const sizeMB = (event.body ? Buffer.byteLength(event.body, "utf8") : 0) / (1024 * 1024);
+  console.log(`[anthropic-proxy] incoming payload: ${sizeMB.toFixed(2)} MB`);
+  if (sizeMB > 5.8) {
+    return {
+      statusCode: 413,
+      body: JSON.stringify({
+        error: {
+          message: `Plan images too large (${sizeMB.toFixed(1)} MB). The server caps uploads at ~6 MB. Upload one smaller sheet, or the app will downscale further.`,
+        },
+      }),
+    };
+  }
+
   let body;
   try {
     body = JSON.parse(event.body);
@@ -34,23 +48,25 @@ exports.handler = async function (event) {
     });
 
     clearTimeout(timer);
-    const data = await response.json();
+    const text = await response.text();
+    console.log(`[anthropic-proxy] upstream status: ${response.status}`);
+    if (!response.ok) {
+      console.log(`[anthropic-proxy] upstream error body: ${text.slice(0, 500)}`);
+    }
 
     return {
       statusCode: response.status,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: text,
     };
   } catch (err) {
     clearTimeout(timer);
+    console.log(`[anthropic-proxy] caught error: ${err.name} - ${err.message}`);
     if (err.name === "AbortError") {
       return {
         statusCode: 504,
         body: JSON.stringify({
-          error: {
-            message:
-              "Analysis took too long for the server limit. Try fewer or smaller sheets, or upgrade the Netlify plan for longer timeouts.",
-          },
+          error: { message: "Analysis took too long for the server limit. Try one smaller sheet." },
         }),
       };
     }
